@@ -15,7 +15,7 @@ setuptools.setup(
     description="This is a text generation method which returns a generator, streaming out each token in real-time during inference, based on Huggingface/Transformers.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/LowinLi/fastgpt",
+    url="https://github.com/LowinLi/transformers-stream-generator",
     project_urls={
         "Repo": "https://github.com/LowinLi/transformers-stream-generator",
         "Bug Tracker": "https://github.com/LowinLi/transformers-stream-generator/issues",
