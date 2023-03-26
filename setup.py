@@ -8,7 +8,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setuptools.setup(
     name="transformers-stream-generator",
-    version="0.0.3",
+    version="0.0.4",
     license="MIT License",
     author="LowinLi",
     author_email="lowinli@outlook.com",
