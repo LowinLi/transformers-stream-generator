@@ -7,7 +7,7 @@ from transformers import (
     BeamSearchScorer,
     PhrasalConstraint,
     ConstrainedBeamSearchScorer,
-    PreTrainedModel
+    PreTrainedModel,
 )
 import numpy as np
 import random
@@ -19,6 +19,7 @@ from typing import Callable, List, Optional, Union
 from torch import nn
 import torch.distributed as dist
 import copy
+
 
 def setup_seed(seed):
     if seed == -1:
@@ -995,6 +996,7 @@ class NewGenerationMixin(GenerationMixin):
                     break
                 else:
                     this_peer_finished = True
+
 
 def init_stream_support():
     PreTrainedModel.generate = NewGenerationMixin.generate
