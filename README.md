@@ -1,5 +1,11 @@
 # transformers-stream-generator
 
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/transformers-stream-generator.svg)](https://pypi.org/project/transformers-stream-generator/)
+[![PyPI](https://img.shields.io/pypi/v/transformers-stream-generator.svg)](https://pypi.org/project/transformers-stream-generator/)
+[![GitHub license badge](https://img.shields.io/github/license/LowinLi/transformers-stream-generator)](https://github.com/LowinLi/transformers-stream-generator/blob/main/LICENSE)
+[![Blog](https://img.shields.io/badge/blog-LowinLi-important)](https://lowin.li)
+[![Downloads](https://pepy.tech/badge/transformers-stream-generator)](https://pepy.tech/project/transformers-stream-generator)
+
 ### Description
 This is a text generation method which returns a generator, streaming out each token in real-time during inference, based on Huggingface/Transformers. 
 
