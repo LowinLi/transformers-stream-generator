@@ -13,15 +13,18 @@ model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 model = model.eval()
 
+
 class CompletionsRequest(BaseModel):
     prompt: str = Field(title="input prompt")
     parameters: Dict = Field(title="runtime parameters")
+
 
 app = FastAPI(
     title="Stream Restful Demo",
     redoc_url=None,
     docs=None,
 )
+
 
 @app.post(
     "/inference_stream",
@@ -40,8 +43,9 @@ def inference_stream(request: CompletionsRequest):
             temperature=pars.get("temperature") or 0.35,
             repetition_penalty=pars.get("repetition_penalty") or 1.2,
             early_stopping=True,
-            seed=0
+            seed=0,
         )
+
         def _decode_generator(generator):
             words = ""
             for x in generator:
@@ -50,9 +54,7 @@ def inference_stream(request: CompletionsRequest):
                 words += word
             print(f"the stream cumulate generate output:\n###\n{words}")
 
-    return StreamingResponse(
-        _decode_generator(generator)
-    )
+    return StreamingResponse(_decode_generator(generator))
 
 
 @app.post(
@@ -71,7 +73,7 @@ def inference(request: CompletionsRequest):
             temperature=pars.get("temperature") or 0.35,
             repetition_penalty=pars.get("repetition_penalty") or 1.2,
             early_stopping=True,
-            seed=0
+            seed=0,
         )
         words = tokenizer.decode(result[0], skip_special_tokens=True)
         print(words)

@@ -3,10 +3,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 init_stream_support()
-model = AutoModelForCausalLM.from_pretrained(
-    "gpt2"
-)
 
+model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 model = model.eval()
 prompt_text = "hello? How can I help you?\n"
