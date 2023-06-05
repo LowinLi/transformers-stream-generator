@@ -41,10 +41,26 @@ with torch.no_grad():
     )
     stream_result = ""
     print("real-time stream chunk  generate output:\n###\n")
+    words = ""
+    last_tokens = []
+    last_decoded_tokens = []
+
     for index, x in enumerate(generator):
-        chunk = tokenizer.decode(x, skip_special_tokens=True)
-        stream_result += chunk
-        print(f"chunk index: {index}: {chunk}")
+        tokens = x.cpu().numpy().tolist()
+        tokens = last_tokens + tokens
+        word = tokenizer.decode(tokens, skip_special_tokens=True)
+        if "�" in word:
+            last_tokens = tokens
+        else:
+            if " " in tokenizer.decode(
+                last_decoded_tokens + tokens, skip_special_tokens=True
+            ):
+                word = " " + word
+            last_tokens = []
+            last_decoded_tokens = tokens
+
+        stream_result += word
+        print(f"chunk index: {index}: {word}")
     print("###\n")
     print("the stream cumulate generate output:\n###\n")
     print(stream_result)
