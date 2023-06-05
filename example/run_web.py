@@ -48,13 +48,41 @@ def inference_stream(request: CompletionsRequest):
 
         def _decode_generator(generator):
             words = ""
+            last_tokens = []
+            last_decoded_tokens = []
             for x in generator:
-                word = tokenizer.decode(x, skip_special_tokens=True)
-                yield word
-                words += word
-            print(f"the stream cumulate generate output:\n###\n{words}")
+                tokens = x.cpu().numpy().tolist()
+                tokens = last_tokens + tokens
+                word = tokenizer.decode(tokens, skip_special_tokens=True)
+                if "�" in word:
+                    last_tokens = tokens
+                else:
+                    if " " in tokenizer.decode(
+                        last_decoded_tokens + tokens, skip_special_tokens=True
+                    ):
+                        word = " " + word
+                    last_tokens = []
+                    last_decoded_tokens = tokens
+                    yield json.dumps(
+                        {
+                            "code": 200,
+                            "message": "success",
+                            "data": [
+                                {
+                                    "delta": {"content": word},
+                                    "logprobs": None,
+                                    "index": 0,
+                                    "finish_reason": None,
+                                }
+                            ],
+                        },
+                        ensure_ascii=False,
+                    )
+                    words += word
+            log.info(uid + "$$ " + words)
 
     return StreamingResponse(_decode_generator(generator))
+
 
 
 @app.post(
