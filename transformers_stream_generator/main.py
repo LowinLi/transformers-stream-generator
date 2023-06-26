@@ -293,7 +293,7 @@ class NewGenerationMixin(GenerationMixin):
         is_constraint_gen_mode = (
             generation_config.constraints is not None
             or generation_config.force_words_ids is not None
-        )
+        ) and generation_config.do_stream is False
 
         is_contrastive_search_gen_mode = (
             generation_config.top_k is not None
@@ -301,7 +301,7 @@ class NewGenerationMixin(GenerationMixin):
             and generation_config.do_sample is False
             and generation_config.penalty_alpha is not None
             and generation_config.penalty_alpha > 0
-        )
+        ) and generation_config.do_stream is False
 
         is_greedy_gen_mode = (
             (generation_config.num_beams == 1)
@@ -309,7 +309,7 @@ class NewGenerationMixin(GenerationMixin):
             and generation_config.do_sample is False
             and not is_constraint_gen_mode
             and not is_contrastive_search_gen_mode
-        )
+        ) and generation_config.do_stream is False
         is_sample_gen_mode = (
             (generation_config.num_beams == 1)
             and (generation_config.num_beam_groups == 1)
@@ -317,7 +317,7 @@ class NewGenerationMixin(GenerationMixin):
             and generation_config.do_stream is False
             and not is_constraint_gen_mode
             and not is_contrastive_search_gen_mode
-        )
+        ) and generation_config.do_stream is False
         is_sample_gen_stream_mode = (
             (generation_config.num_beams == 1)
             and (generation_config.num_beam_groups == 1)
@@ -331,20 +331,20 @@ class NewGenerationMixin(GenerationMixin):
             and generation_config.do_sample is False
             and not is_constraint_gen_mode
             and not is_contrastive_search_gen_mode
-        )
+        ) and generation_config.do_stream is False
         is_beam_sample_gen_mode = (
             (generation_config.num_beams > 1)
             and (generation_config.num_beam_groups == 1)
             and generation_config.do_sample is True
             and not is_constraint_gen_mode
             and not is_contrastive_search_gen_mode
-        )
+        ) and generation_config.do_stream is False
         is_group_beam_gen_mode = (
             (generation_config.num_beams > 1)
             and (generation_config.num_beam_groups > 1)
             and not is_constraint_gen_mode
             and not is_contrastive_search_gen_mode
-        )
+        ) and generation_config.do_stream is False
 
         if generation_config.num_beam_groups > generation_config.num_beams:
             raise ValueError(
