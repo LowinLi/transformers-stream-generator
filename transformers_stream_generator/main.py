@@ -289,6 +289,9 @@ class NewGenerationMixin(GenerationMixin):
                 " increasing `max_new_tokens`."
             )
 
+        if not hasattr(generation_config, "do_stream"):
+            generation_config.do_stream = kwargs.get("do_stream", False)
+
         # 7. determine generation mode
         is_constraint_gen_mode = (
             generation_config.constraints is not None
